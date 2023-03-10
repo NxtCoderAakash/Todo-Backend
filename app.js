@@ -26,7 +26,8 @@ initializeDbAndServer();
 //API 0 Create a table todo
 
 app.get("/", async (request, response) => {
-  let createToDoTableQuery = `
+  try {
+    let createToDoTableQuery = `
     CREATE TABLE todo(
         id INTEGER PRIMARY KEY,
         todo VARCHAR(250),
@@ -34,9 +35,13 @@ app.get("/", async (request, response) => {
         status VARCHAR(250)
     );
     `;
-  let newTable = await db.get(createToDoTableQuery);
-  //   response.send(newTable);
-  response.send("New  TODO Table Created");
+    let newTable = await db.get(createToDoTableQuery);
+    //   response.send(newTable);
+    response.send("New  TODO Table Created");
+  } catch (error) {
+    console.log(`The error is :${e.message}`);
+    process.exit(1);
+  }
 });
 
 //API 1
@@ -168,6 +173,23 @@ app.delete("/todos/:todoId/", async (request, response) => {
     `;
     await db.run(deleteQuery);
     response.send("Todo Deleted");
+  } catch (e) {
+    console.log(`The error is :${e.message}`);
+    process.exit(1);
+  }
+});
+
+app.get("/todos/", async (request, response) => {
+  try {
+    let { todoId } = request.params;
+    let getTodoByIdQuery = `
+    SELECT
+        * 
+    FROM 
+        todo 
+    `;
+    let todoList = await db.all(getTodoByIdQuery);
+    response.send(todoList);
   } catch (e) {
     console.log(`The error is :${e.message}`);
     process.exit(1);

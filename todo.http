@@ -15,7 +15,7 @@ POST http://localhost:3000/todos/
 Content-Type: application/json
 
 {
-  "id": 2,
+  "id": 5,
   "todo": "Finalize event theme",
   "priority": "LOW",
   "status": "TO DO"
@@ -32,3 +32,8 @@ Content-Type: application/json
 
 ###API5
 DELETE http://localhost:3000/todos/2/
+
+
+
+###API6
+GET http://localhost:3000/todos/
